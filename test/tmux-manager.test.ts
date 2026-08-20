@@ -100,10 +100,14 @@ describe('TmuxManager (unit)', () => {
   });
 
   describe('Codex command builder', () => {
-    it('controls decorative TUI animation through Codex config', () => {
-      expect(buildCodexCommand({ animations: false })).toBe('codex --config tui.animations=false');
-      expect(buildCodexCommand({ animations: true })).toBe('codex --config tui.animations=true');
-      expect(buildCodexCommand()).toBe('codex');
+    it('adds the required defaults and controls optional Codex flags', () => {
+      const base = 'codex -c model_reasoning_effort="high" -c model_reasoning_summary_format=experimental --search';
+      expect(buildCodexCommand({ animations: false })).toBe(`${base} --config tui.animations=false`);
+      expect(buildCodexCommand({ animations: true })).toBe(`${base} --config tui.animations=true`);
+      expect(buildCodexCommand({ dangerouslyBypassApprovals: true })).toBe(
+        `${base} --dangerously-bypass-approvals-and-sandbox`
+      );
+      expect(buildCodexCommand()).toBe(base);
     });
   });
 

@@ -657,7 +657,14 @@ function buildOpenCodeCommand(config?: OpenCodeConfig): string {
  * stripping destructive terminal sequences before xterm.js sees them.
  */
 export function buildCodexCommand(config?: CodexConfig): string {
-  const parts = ['codex'];
+  const parts = [
+    'codex',
+    '-c',
+    'model_reasoning_effort="high"',
+    '-c',
+    'model_reasoning_summary_format=experimental',
+    '--search',
+  ];
 
   if (config?.dangerouslyBypassApprovals) {
     parts.push('--dangerously-bypass-approvals-and-sandbox');
